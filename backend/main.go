@@ -30,10 +30,17 @@ func main() {
 
 func ToDoListHandler(w http.ResponseWriter, r *http.Request) {
 	// Setup CORS
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	// Read http request method
 	switch r.Method {
-		// If "GET" request, get the current todo list
+	// If "GET" request, get the current todo list
 	case http.MethodGet:
 		GetToDoList(w)
 		// If "POST" request, add new todo to list

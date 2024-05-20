@@ -13,14 +13,9 @@ type todo struct {
 }
 
 // array of todo's as a todo list - in-memory
-var todoList []todo
+var todoList []todo = []todo{}
 
 func main() {
-	// Initialize to-do list
-	todoList = []todo{
-		{"Buy groceries", "Please ar"},
-		{"Finish report", "please dog"},
-	}
 	// Register http endpoint at /todo
 	http.HandleFunc("/todo", ToDoListHandler)
 	// Start the server and listen on port 8080
@@ -78,8 +73,10 @@ func AddToDoItem(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error decoding new to-do item: %v", err)
 		return
 	}
+	// If either description or title are empty, throw 400 error
 	if (newItem.Description == "" || newItem.Title == "") {
 		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 	// Add new item to the list
 	todoList = append(todoList, newItem)

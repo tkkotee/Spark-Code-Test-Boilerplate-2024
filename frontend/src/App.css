@@ -12,6 +12,10 @@
   font-size: calc(10px + 2vmin);
 }
 
+.noTodo {
+  padding-bottom: 30px;
+}
+
 .todo {
   display: flex;
   justify-content: space-between;

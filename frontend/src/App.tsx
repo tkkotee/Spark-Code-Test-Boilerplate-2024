@@ -1,7 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import './App.css';
 import Todo, { TodoType } from './Todo';
-import axios from 'axios';
 
 function App() {
   const [todos, setTodos] = useState<TodoType[]>([]);
@@ -49,9 +48,11 @@ function App() {
           },
           body: JSON.stringify({title: title, description: description})
         });
+      // Handle 400 error from invalid input
       if (response.status === 400) {
         alert("Error: Either title or description is empty")
       }
+      // Handle other errors
       if (response.status !== 200) {
         throw new Error("Error adding todo")
       }
@@ -69,8 +70,7 @@ function App() {
       <header className="app-header">
         <h1>TODO</h1>
       </header>
-
-      <div className="todo-list">
+      {todos.length === 1 ? <div className="noTodo"> Add your first todo!</div> : <div className="todo-list">
         {todos.map((todo) =>
           <Todo
             key={todo.title + todo.description}
@@ -78,8 +78,7 @@ function App() {
             description={todo.description}
           />
         )}
-      </div>
-
+      </div>}
       <h2>Add a Todo</h2>
       <form onSubmit={addTodo}>
         <input placeholder="Title" name="title" autoFocus={true} value={title} onChange={handleTitleChange}/>

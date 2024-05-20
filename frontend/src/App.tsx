@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const todos = await fetch('http://localhost:8080/');
+        const todos = await fetch('http://localhost:8080/todo');
         if (todos.status !== 200) {
           console.log('Error fetching data');
           return;

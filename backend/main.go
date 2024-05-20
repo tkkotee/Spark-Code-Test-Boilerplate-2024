@@ -78,9 +78,12 @@ func AddToDoItem(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error decoding new to-do item: %v", err)
 		return
 	}
+	if (newItem.Description == "" || newItem.Title == "") {
+		w.WriteHeader(http.StatusBadRequest)
+	}
 	// Add new item to the list
 	todoList = append(todoList, newItem)
 	// Respond with success message
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, "To-do item added successfully")
 }
